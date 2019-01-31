@@ -1,0 +1,36 @@
+version: '3.7'
+
+# https://docs.docker.com/get-started/part4/#create-a-cluster
+# In your Docker Swarm manager node:
+# https://docs.docker.com/engine/swarm/secrets/
+# Create a POSTGRES_PASSWORD and store in Docker Secrets:
+# openssl rand -base64 20 | docker secret create POSTGRES_PASSWORD -
+# PS of course if your database is already running you may already have a current password.
+#
+# Now deploy to your swarm, using this docker stack file.
+# docker stack deploy --compose-file=./docker-stack.postgres.yml {{cookiecutter.django_project_name}}
+
+services:
+  postgres:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/POSTGRES_PASSWORD
+    secrets:
+      - POSTGRES_PASSWORD
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:rw
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "pg_isready -U postgres"
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+volumes:
+  postgres_data: {}
+
+secrets:
+  POSTGRES_PASSWORD:
+    external: true

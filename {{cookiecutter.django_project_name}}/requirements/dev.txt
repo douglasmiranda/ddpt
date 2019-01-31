@@ -1,0 +1,26 @@
+-r ./base.txt
+# Local / Dev environment dependencies ONLY
+
+# Run!
+Werkzeug==0.14.1  # django extensions will use Werkzeug in `runserver_plus`
+watchdog==0.9.0  # Werkzeug will use to monitor file changes
+django-extensions==2.1.4
+
+# Debug
+django-debug-toolbar==1.11
+# ipdb==0.11
+
+# Useful info about python packages
+pipdeptree==0.13.1
+
+# Code style
+black==18.9b0
+
+# coverage==4.4.2
+# django-coverage-plugin==1.5.0
+
+# django-test-plus==1.0.21
+# factory-boy==2.9.2
+
+# pytest-django==3.1.2
+# pytest-sugar==0.9.0

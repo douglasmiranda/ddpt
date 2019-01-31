@@ -1,0 +1,42 @@
+django==2.1.5
+
+# Configuration
+gconfigs==0.1.4
+
+# Images
+Pillow==5.3.0
+
+# Password storage
+argon2-cffi==18.3.0
+
+# Python-PostgreSQL Database Adapter
+psycopg2==2.7.6.1
+
+# Unicode slugification
+
+# Redis support
+redis==3.0.1
+django-redis==4.10.0
+
+# You will probably use the below packages in production.
+# But you could use in dev environment too, so you can test things.
+# And it's nice to always have almost the exact same setup as production
+# this way you can detect broken packages, things like that in development.
+
+# WSGI Handler
+gunicorn==19.9.0
+
+# Static file serving
+whitenoise==4.1.2
+{% if cookiecutter.use_s3 == 'y' %}
+# Media Storage
+django-storages[boto3]==1.7.1{% endif %}
+{% if cookiecutter.use_mailgun == 'y' %}
+# Email backends for Mailgun, Postmark, SendGrid and more
+django-anymail==5.0{% endif %}
+{% if cookiecutter.use_sentry_for_error_reporting == "y" %}
+# Raven is the Sentry client
+raven==6.4.0{% endif %}
+{% if cookiecutter.use_admin_theme == 'y' %}
+# Django Admin theme
+bootstrap-admin==0.4.0{% endif %}

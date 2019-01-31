@@ -1,0 +1,12 @@
+version: '3.7'
+
+# Deploy:
+# docker stack deploy --compose-file=./docker-stack.redis.yml {{cookiecutter.django_project_name}}
+
+services:
+  redis:
+    image: redis:5-alpine
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "test $$(redis-cli ping) || exit 1"

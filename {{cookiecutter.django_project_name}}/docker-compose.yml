@@ -1,0 +1,39 @@
+version: '3.6'
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: development
+    ports:
+      - "8000:8000"
+    volumes:
+      # Project code
+      - ./{{cookiecutter.django_project_name}}:/django/{{cookiecutter.django_project_name}}
+      - django_media_root:/django/media-root/
+    # stdin_open: true
+    # tty: true
+    restart: on-failure
+    command:
+      - python
+      - manage.py
+      - runserver_plus  # django-extensions
+      - 0.0.0.0:8000
+
+  postgres:
+    image: postgres:11-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:rw
+
+  redis:
+    image: redis:4-alpine
+{% if cookiecutter.use_mailhog == 'y' %}
+  mailhog:
+    image: mailhog/mailhog:v1.0.0
+    ports:
+      - "8025:8025"
+{% endif %}
+volumes:
+  postgres_data: {}
+  django_media_root: {}

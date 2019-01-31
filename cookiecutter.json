@@ -1,0 +1,16 @@
+{
+  "project_name": "Project Name",
+  "django_project_name": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_') }}",
+  "author_name": "Your Name or Company Name",
+  "email": "you@example.com",
+  "description": "A short description of the project.",
+  "domain_name": "example.com",
+  "version": "0.1.0",
+  "timezone": "UTC",
+  "language_code": "en-us",
+  "use_mailgun": "n",
+  "use_mailhog": "n",
+  "use_s3": "n",
+  "use_admin_theme": "y",
+  "use_sentry_for_error_reporting": "n"
+}

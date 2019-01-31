@@ -1,0 +1,87 @@
+version: '3.7'
+
+# Before you deploy this service (django), you must create, build and push to a registry.
+# For example:
+# docker build --target=production -t {{cookiecutter.django_project_name}}/django .
+# https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
+# You will probably push to a private registry
+# so you'll actually tag it as: MYREGISTRY.com/{{cookiecutter.django_project_name}}/django
+# docker build --target=production -t MYREGISTRY.com/{{cookiecutter.django_project_name}}/django .
+# When you do this don't forget to change the `image` to something like:
+# services:
+#   django:
+#     image: MYREGISTRY.com/{{cookiecutter.django_project_name}}/django
+#
+# In your Docker Swarm manager node create your Django Secret Key...
+# - https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-SECRET_KEY
+# - https://docs.docker.com/engine/swarm/secrets/
+# ...with this command:
+# openssl rand -base64 50 | docker secret create DJANGO_SECRET_KEY -
+# For POSTGRES_PASSWORD refer to ./docker-stack.postgres.yml
+{% if cookiecutter.use_mailgun == 'y' %}# For MAILGUN_API_KEY and MAILGUN_SENDER_DOMAIN check in your mailgun dashboard
+# and add the values as secrets, for example:
+# echo "YOUR MAILGUN API KEY" | docker secret create MAILGUN_API_KEY -
+# echo "YOUR MAILGUN SENDER DOMAIN" | docker secret create MAILGUN_SENDER_DOMAIN -
+#{% endif %}
+# Then you can deploy:
+# docker stack deploy --compose-file=docker-stack.django.yml {{cookiecutter.django_project_name}}
+
+services:
+  django:
+    image: {{cookiecutter.django_project_name}}/django
+    secrets:
+      - DJANGO_SECRET_KEY
+      - POSTGRES_PASSWORD{% if cookiecutter.use_mailgun == 'y' %}
+      - MAILGUN_API_KEY
+      - MAILGUN_SENDER_DOMAIN{% endif %}{% if cookiecutter.use_s3 == 'y' %}
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_STORAGE_BUCKET_NAME{% endif %}
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "sh /django/healthchecks.sh"
+      interval: 45s
+    deploy:
+      mode: replicated
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 40s
+      rollback_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+        failure_action: rollback
+    command:
+      - gunicorn
+      - -b
+      - "0.0.0.0:5000"
+      - {{cookiecutter.django_project_name}}.config.wsgi:application
+
+
+volumes:
+  django_media_root: {}
+  django_static_root: {}
+
+secrets:
+  DJANGO_SECRET_KEY:
+    external: true
+  POSTGRES_PASSWORD:
+    external: true{% if cookiecutter.use_mailgun == 'y' %}
+  MAILGUN_API_KEY:
+    external: true
+  MAILGUN_SENDER_DOMAIN:
+    external: true{% endif %}{% if cookiecutter.use_s3 == 'y' %}
+  AWS_ACCESS_KEY_ID:
+    external: true
+  AWS_SECRET_ACCESS_KEY:
+    external: true
+  AWS_STORAGE_BUCKET_NAME:
+    external: true{% endif %}

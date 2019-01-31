@@ -1,0 +1,12 @@
+tmp/*
+deployment/*
+
+docker-compose.yml
+docker-stack.yml
+README.rst
+Makefile
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class

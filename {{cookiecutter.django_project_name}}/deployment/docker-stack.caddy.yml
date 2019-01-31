@@ -1,0 +1,37 @@
+version: '3.7'
+
+# Make sure your caddy/Caddyfile is the way you want
+# Deploy:
+# docker stack deploy --compose-file=docker-stack.caddy.yml {{cookiecutter.django_project_name}}
+
+services:
+  caddy:
+    image: douglasmiranda/caddy
+    environment:
+      DOMAIN_NAME: https://{{cookiecutter.domain_name}}
+    volumes:
+      - caddy:/home/caddy/.caddy
+      # You could simply use a volume, like this:
+      # - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      # But Docker Configs is available in Docker Swarm so, why not use?
+      # You could use Docker Secrets too.
+      # Or build your own Docker image for Caddy and add your Caddyfile.
+    configs:
+      - source: caddyfile
+        target: /etc/caddy/Caddyfile
+    ports:
+      - "80:80"
+      - "443:443"
+
+volumes:
+  # This volume is useful for caddy to store the certificates.
+  # Then you are free to make the container disposable.
+  # (when using Docker Swarm the containers are often removed and replaced to a new one)
+  # if you don't store your certificates in a volume, every new container will request
+  # new certificates on Let's Encrypt, and that may reach the API calls limit.
+  caddy: {}
+
+# https://docs.docker.com/compose/compose-file/#configs
+configs:
+  caddyfile:
+    file: ./caddy/Caddyfile
