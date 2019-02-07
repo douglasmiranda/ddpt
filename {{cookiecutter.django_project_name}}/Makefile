@@ -32,6 +32,9 @@ enter: ## enter the Django container (want to play freely with manage.py command
 shell: ## enter the Django container and run the shell_plus or shell
 	$(ENTER_DJANGO) python manage.py shell_plus || $(ENTER_DJANGO) python manage.py shell
 
+debug: ## after you set the breakpoint() in your code, attach to the Django container
+	docker attach $(PROJECT_DIR_NAME)_django_1
+
 format: ## format code using Black
 	@$(ENTER_DJANGO) black ./$(PROJECT_DIR_NAME)
 
