@@ -1,4 +1,4 @@
-FROM python:3.7-alpine3.8 AS builder
+FROM python:3.7-alpine3.9 AS builder
 
 # Build dependencies
 RUN apk add --no-cache \
@@ -18,7 +18,7 @@ RUN pip wheel --pre --wheel-dir=./ -r dev.txt
 
 
 ## SETUP STAGE: In this stage we'll just define the basics of our environment.
-FROM python:3.7-alpine3.8 AS setup
+FROM python:3.7-alpine3.9 AS setup
 
 ENV HOMEAPP=/django
 ENV PROJECT_NAME={{cookiecutter.django_project_name}}
@@ -35,9 +35,9 @@ RUN addgroup -S django && adduser -h $HOMEAPP -S -G django django \
 WORKDIR $HOMEAPP/
 # Our Python Packages + requirements files
 COPY --from=builder /requirements/ r/
-# entrypoint and healthchecks
 ADD https://raw.githubusercontent.com/douglasmiranda/lab/master/docker-secrets-as-env/docker-secrets-to-env-var.sh ./docker-secrets-to-env-var.sh
-COPY ./*.sh ./
+
+COPY ./entrypoint.sh ./
 COPY manage.py ./
 
 RUN chown -R django:django ./
@@ -59,6 +59,7 @@ ENV DJANGO_SETTINGS_MODULE=$PROJECT_NAME.config.local
 # Since, I'm using only on dev I'll disable this
 # So, do NEVER disable this if you deploy Werkzeug on production
 ENV WERKZEUG_DEBUG_PIN=off
+ENV PYTHONBREAKPOINT=ipdb.set_trace
 
 # So you can remember to mount the code on your docker-compose.yml
 # ./{{cookiecutter.django_project_name}}:/django/{{cookiecutter.django_project_name}}
@@ -75,5 +76,6 @@ ENV DJANGO_SETTINGS_MODULE=$PROJECT_NAME.config.production
 RUN pip install --pre --user --no-index --only-binary=:all: --find-links=r/ -r r/base.txt \
     && rm -R $HOMEAPP/r/
 
+COPY --chown=django:django ./deployment/healthchecks.sh ./
 # Our code
 COPY --chown=django:django ./$PROJECT_NAME $HOMEAPP/$PROJECT_NAME
