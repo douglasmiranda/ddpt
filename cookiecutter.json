@@ -8,9 +8,9 @@
   "version": "0.1.0",
   "timezone": "UTC",
   "language_code": "en-us",
-  "use_mailgun": "n",
-  "use_mailhog": "n",
-  "use_s3": "n",
   "use_admin_theme": "y",
+  "use_mailgun": "n",
+  "use_mailhog": "y",
+  "use_s3": "n",
   "use_sentry_for_error_reporting": "n"
 }
