@@ -1,9 +1,9 @@
 """
 Local settings for {{cookiecutter.project_name}} project.
 
-- Run in Debug mode{% if cookiecutter.use_mailhog == 'y' and cookiecutter.use_docker == 'y' %}
+- Run in Debug mode{% if cookiecutter.use_mailhog == 'y' %}
 - Use mailhog for emails via Docker
-{% elif cookiecutter.use_mailhog == 'y' and cookiecutter.use_docker == 'n' %}
+{% elif cookiecutter.use_mailhog == 'y' %}
 - Use mailhog for emails{% else %}- Use console backend for emails{% endif %}
 - Add Django Debug Toolbar
 - Add django-extensions as app
