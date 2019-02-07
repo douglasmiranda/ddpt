@@ -7,7 +7,7 @@ Features
 ---------
 
 * Django 2 + Python 3.6/3.7
-* Using Alpine Linux based images (Wow, so lightweight :B)
+* Using Alpine Linux based images
 * Setup close to production + nice dev tools when local
 * Ready to use `Docker Secrets`_ for keeping you sensitive data safe
 * Ready to use `Docker Configs`_ if you want
@@ -18,23 +18,26 @@ Features
   * ipdb
   * Format code style with Black!
 * Production:
-  * Deploy with `Docker Compose`_ or `Docker Swarm`_ (`docker stack`_ command)
+  * Deploy with `Docker Swarm`_ (`docker stack`_ command)
   * Run your Django using gunicorn
   * Reverse proxy with Caddy_ (easy HTTPS)
   * Serve static files with Whitenoise_
-  * Media storage using Amazon S3
   * Redis for Cache and Session Storage
   * Send emails via Anymail_ (using Mailgun_ by default, but switchable)
-* Bonus: Check the Makefile, you'll see lots of shortcuts to speed up your development
+* Bonus: Check the `Makefile`, you'll see lots of shortcuts to speed up your development
 
 Optional Integrations
 ---------------------
 
 *These features can be enabled during initial project setup.*
 
-* Integration with MailHog_ for local email testing
-* Integration with Sentry_ for error logging
+* (Development) Integration with MailHog_ for local email testing
+* (Production) Integration with Mailgun_ for local email testing
+* (Production) Integration with Sentry_ for error logging
+* (Production) Media storage using Amazon S3
+* `Django Admin theme`_
 
+.. _`Django Admin theme`: https://github.com/douglasmiranda/django-admin-bootstrap
 .. _Mailgun: http://www.mailgun.com/
 .. _Whitenoise: https://whitenoise.readthedocs.io/
 .. _Anymail: https://github.com/anymail/django-anymail
