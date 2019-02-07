@@ -3,7 +3,7 @@ FROM python:3.7-alpine3.9 AS builder
 # Build dependencies
 RUN apk add --no-cache \
     # Essentials
-    gcc musl-dev libressl-dev \
+    gcc musl-dev openssl-dev \
     # Postgres python client (psycopg2) build dependency
     postgresql-dev \
     # Pillow / PIL build dependencies
