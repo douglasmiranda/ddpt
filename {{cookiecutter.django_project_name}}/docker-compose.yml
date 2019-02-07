@@ -1,4 +1,4 @@
-version: '3.6'
+version: '3.7'
 
 services:
   django:
@@ -12,8 +12,9 @@ services:
       # Project code
       - ./{{cookiecutter.django_project_name}}:/django/{{cookiecutter.django_project_name}}
       - django_media_root:/django/media-root/
-    # stdin_open: true
-    # tty: true
+    # stdin_open and tty will be useful for debugging
+    stdin_open: true
+    tty: true
     restart: on-failure
     command:
       - python
@@ -27,7 +28,7 @@ services:
       - postgres_data:/var/lib/postgresql/data:rw
 
   redis:
-    image: redis:4-alpine
+    image: redis:5-alpine
 {% if cookiecutter.use_mailhog == 'y' %}
   mailhog:
     image: mailhog/mailhog:v1.0.0
