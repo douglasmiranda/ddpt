@@ -1,5 +1,4 @@
 tmp/*
-deployment/*
 
 docker-compose.yml
 docker-stack.yml
