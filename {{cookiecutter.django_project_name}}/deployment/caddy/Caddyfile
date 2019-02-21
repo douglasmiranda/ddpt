@@ -21,4 +21,6 @@ www.{$DOMAIN_NAME} {
     log stdout
     errors stdout
     gzip
+    # https://caddyserver.com/docs/tls
+    tls {{cookiecutter.email}}
 }
