@@ -6,19 +6,21 @@ version: '3.7'
 
 services:
   caddy:
-    image: douglasmiranda/caddy
+    image: {{cookiecutter.django_project_name}}/caddy
     environment:
+      # I'm assuming you're going to deploy a secure website.
+      #
       DOMAIN_NAME: https://{{cookiecutter.domain_name}}
     volumes:
       - caddy:/home/caddy/.caddy
       # You could simply use a volume, like this:
       # - ./caddy/Caddyfile:/etc/caddy/Caddyfile
-      # But Docker Configs is available in Docker Swarm so, why not use?
-      # You could use Docker Secrets too.
+      # Or Docker Configs:
+      # https://docs.docker.com/compose/compose-file/#configs
+      # You could use Docker Secrets too:
+      # https://docs.docker.com/compose/compose-file/#secrets
       # Or build your own Docker image for Caddy and add your Caddyfile.
-    configs:
-      - source: caddyfile
-        target: /etc/caddy/Caddyfile
+      # I'm assuming this
     ports:
       - "80:80"
       - "443:443"
@@ -30,8 +32,3 @@ volumes:
   # if you don't store your certificates in a volume, every new container will request
   # new certificates on Let's Encrypt, and that may reach the API calls limit.
   caddy: {}
-
-# https://docs.docker.com/compose/compose-file/#configs
-configs:
-  caddyfile:
-    file: ./caddy/Caddyfile
