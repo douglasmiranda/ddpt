@@ -9,4 +9,4 @@ FROM douglasmiranda/caddy
 # - you may want to build Caddy yourself: https://github.com/douglasmiranda/dockerfiles/tree/master/caddy/simple
 # - you may want to build Caddy with plugins: https://github.com/douglasmiranda/dockerfiles/tree/master/caddy/plugins
 # - ...
-COPY Caddyfile /etc/Caddyfile
+COPY Caddyfile /etc/caddy/Caddyfile
