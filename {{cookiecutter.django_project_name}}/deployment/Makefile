@@ -61,8 +61,4 @@ build: ## Build things you need before deployment
 	# docker build --target=production -t {{cookiecutter.django_project_name}}/django .
 
 migrate: ## ATTENTION! Execute the databases migrations, check: ./db-migration.yml
-	docker stack deploy --compose-file=db-migration.yml $(STACK_NAME)
-	@echo "Check if everything went ok with: \033[33mmake migration-logs\033[0m"
-
-migration-logs: ## Follow the live logs of your latest migration. (given you already performed "make migrate")
-	docker service logs -f $(STACK_NAME)_django-migrate
+    docker exec $(docker ps -q -f name=$(STACK_NAME)_django -f health=healthy -n 1) sh -c "source docker-secrets-to-env-var.sh && django-admin migrate"
