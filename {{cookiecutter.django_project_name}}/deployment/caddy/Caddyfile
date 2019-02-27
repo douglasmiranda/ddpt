@@ -23,3 +23,7 @@
         Referrer-Policy "strict-origin-when-cross-origin"
     }
 }
+
+:7777 {
+    status 200 /
+}

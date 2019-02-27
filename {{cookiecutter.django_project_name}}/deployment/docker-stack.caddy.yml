@@ -24,6 +24,33 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "wget --spider http://localhost:7777 || exit 1"
+      interval: 15s
+      retries: 6
+      # When Caddy is requesting a Let's encrypt certificate it can take some time
+      start_period: 120s
+    # If you want replicated Caddy (it's nice for ):
+    # deploy:
+    #   mode: replicated
+    #   replicas: 2
+    #   restart_policy:
+    #     condition: on-failure
+    #     delay: 5s
+    #     max_attempts: 3
+    #     window: 40s
+    #   rollback_config:
+    #     parallelism: 1
+    #     delay: 10s
+    #     order: stop-first
+    #   update_config:
+    #     parallelism: 1
+    #     delay: 10s
+    #     order: stop-first
+    #     failure_action: rollback
+
 
 volumes:
   # This volume is useful for caddy to store the certificates.
