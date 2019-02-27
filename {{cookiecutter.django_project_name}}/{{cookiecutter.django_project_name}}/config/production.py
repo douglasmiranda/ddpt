@@ -63,6 +63,8 @@ AWS_SECRET_ACCESS_KEY = envs('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = envs('AWS_STORAGE_BUCKET_NAME')
 AWS_AUTO_CREATE_BUCKET = True
 AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = "public-read"
 
 _AWS_EXPIRY = 60 * 60 * 24 * 7
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
