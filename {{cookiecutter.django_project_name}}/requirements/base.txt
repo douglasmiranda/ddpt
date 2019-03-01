@@ -1,4 +1,4 @@
-django==2.1.5
+django==2.1.7
 
 # Configuration
 gconfigs==0.1.4
@@ -18,6 +18,9 @@ psycopg2==2.7.7
 redis==3.1.0
 django-redis==4.10.0
 
+{% if cookiecutter.use_admin_theme == 'y' %}
+# Django Admin theme
+bootstrap-admin==0.4.0{% endif %}
 # You will probably use the below packages in production.
 # But you could use in dev environment too, so you can test things.
 # And it's nice to always have almost the exact same setup as production
@@ -37,6 +40,3 @@ django-anymail==5.0{% endif %}
 {% if cookiecutter.use_sentry_for_error_reporting == "y" %}
 # Raven is the Sentry client
 raven==6.4.0{% endif %}
-{% if cookiecutter.use_admin_theme == 'y' %}
-# Django Admin theme
-bootstrap-admin==0.4.0{% endif %}
