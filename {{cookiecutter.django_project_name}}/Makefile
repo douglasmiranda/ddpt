@@ -14,7 +14,8 @@ help: ## show make targets
 		/#__danger/ {printf "\033[31m%s ", "DANGER"} \
 		{gsub(/#__danger /, ""); printf "\033[0m%s\n", $$2}'
 
-build: clean-py ## build necessary stuff for our project to run (docker images)
+build: ## build necessary stuff for our project to run (docker images)
+	@$(MAKE) clean-py || printf "\n\033[33mWasn't able to execute clean-py, maybe some file permissions issue! But build anyway.\033[0m\n\n"
 	docker-compose build
 
 run: ## start containers with docker-compose and attach to logs
@@ -29,17 +30,29 @@ stop: ## stop all running containers for this project
 enter: ## enter the Django container (want to play freely with manage.py commands? just `make enter` and have fun)
 	$(ENTER_DJANGO) sh
 
+enter-root: ## enter the Django container as ROOT
+	$(ENTER_DJANGO_ROOT) sh
+
 shell: ## enter the Django container and run the shell_plus or shell
 	$(ENTER_DJANGO) python manage.py shell_plus || $(ENTER_DJANGO) python manage.py shell
+
+test: ## enter the running Django container and run tests with pytest
+	$(ENTER_DJANGO) pytest -v --ds {{cookiecutter.django_project_name}}.config.test
 
 debug: ## after you set the breakpoint() in your code, attach to the Django container
 	docker attach $(PROJECT_DIR_NAME)_django_1
 
+compilemessages: ## Localization: enter the running Django container and compile .po files (create .mo files)
+	# For generating the .po files fist you need to enter the django container, inside your app directory and:
+	# cd {{cookiecutter.django_project_name}}/core/ (for example)
+	# django-admin makemessages --locale=pt_BR
+	$(ENTER_DJANGO) django-admin compilemessages --locale=pt_BR
+
 format: ## format code using Black
-	@$(ENTER_DJANGO) black ./$(PROJECT_DIR_NAME)
+	@$(ENTER_DJANGO) black --exclude "migrations/*" ./$(PROJECT_DIR_NAME)
 
 format-diff: ## see how your code will look like after being formatted with Black
-	@$(ENTER_DJANGO) black --diff ./$(PROJECT_DIR_NAME)
+	@$(ENTER_DJANGO) black --diff --exclude "migrations/*" ./$(PROJECT_DIR_NAME)
 
 logs: ## attach to logs of containers for this project
 	docker-compose logs -f
@@ -74,6 +87,9 @@ remove: ## stop running containers and remove them
 	docker-compose rm -f
 
 remove-full: ## #__danger stop and remove running containers, VOLUMES and NETWORKS associated to them
+	@echo "\033[33mATTENTION!\033[0m"
+	@echo "This command will remove your containers and volumes related to them."
+	@read -p "Do you want to proceed? y or n: " answer; if [ "$$answer" != "y" ]; then echo "Operation Cancelled"; exit 1; fi
 	docker-compose down --volumes
 
 first-run: ## #__danger This will run migrations and create a INSECURE superuser that you should only use in dev environment
@@ -84,7 +100,7 @@ first-run: ## #__danger This will run migrations and create a INSECURE superuser
 	@echo "  - Username: a"
 	@echo "  - Password: a\n"
 
-	@read -p "Do you want to proceed? y or n: " answer; if [[ "$$answer" != "y" ]]; then echo "Operation Cancelled"; exit 1; fi
+	@read -p "Do you want to proceed? y or n: " answer; if [ "$$answer" != "y" ]; then echo "Operation Cancelled"; exit 1; fi
 
 	$(ENTER_DJANGO) python manage.py migrate
 	$(ENTER_DJANGO) python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('a', 'a@a.co', 'a')"
