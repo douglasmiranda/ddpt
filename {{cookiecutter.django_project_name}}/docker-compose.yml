@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
       target: development
+    image: {{cookiecutter.django_project_name}}/django:development
     ports:
       - "8000:8000"
     volumes:
@@ -15,6 +16,7 @@ services:
     # stdin_open and tty will be useful for debugging
     stdin_open: true
     tty: true
+    # So it can return when a SyntaxError breaks runserver
     restart: on-failure
     command:
       - python
