@@ -25,9 +25,7 @@ urlpatterns = [
     # Core Views
     path("", include("{{ cookiecutter.django_project_name }}.core.urls")),
     # Your stuff: custom urls includes go here
-] + static(
-    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit

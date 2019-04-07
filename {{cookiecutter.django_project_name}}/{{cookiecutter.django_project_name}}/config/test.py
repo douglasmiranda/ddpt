@@ -33,7 +33,8 @@ EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 # Speed advantages of in-memory caching without having to run Memcached
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache", "LOCATION": ""
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "",
     }
 }
 
