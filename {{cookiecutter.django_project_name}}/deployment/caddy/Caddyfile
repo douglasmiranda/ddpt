@@ -2,11 +2,13 @@
     proxy / django:5000 {
         transparent
     }
+
     log stdout
     errors stdout
     gzip
     # https://caddyserver.com/docs/tls
     tls {{cookiecutter.email}}
+
     header / {
         # Enable HTTP Strict Transport Security (HSTS) to force clients to always
         # connect via HTTPS (do not use if only testing)
@@ -24,6 +26,9 @@
     }
 }
 
+# This works as a Caddy healthcheck.
+# if Caddy finished starting it will be able to serve localhost:7777
+# https://github.com/douglasmiranda/lab/tree/master/caddy-healthcheck-of-caddy-itself
 :7777 {
     status 200 /
 }

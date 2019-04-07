@@ -1,26 +1,21 @@
 version: '3.7'
 
-# Make sure your caddy/Caddyfile is the way you want
 # Deploy:
 # docker stack deploy --compose-file=docker-stack.caddy.yml {{cookiecutter.django_project_name}}
 
 services:
   caddy:
+    # You could use a volume to mount Caddyfile. Pros: Easy; Cons: No good for replicated services
+    # You could use Docker Configs to mount Caddyfile. Pros: Good for replicated env; Cons: You could not be used to immutable configs
+    # image: douglasmiranda/caddy
+    # You may want to build your own image, with you own Caddyfile.
+    # ./caddy/Caddyfile
+    # ./caddy/Dockerfile
     image: {{cookiecutter.django_project_name}}/caddy
     environment:
-      # I'm assuming you're going to deploy a secure website.
-      #
-      DOMAIN_NAME: https://{{cookiecutter.domain_name}}
+      DOMAIN_NAME: {{cookiecutter.domain_name}}
     volumes:
       - caddy:/home/caddy/.caddy
-      # You could simply use a volume, like this:
-      # - ./caddy/Caddyfile:/etc/caddy/Caddyfile
-      # Or Docker Configs:
-      # https://docs.docker.com/compose/compose-file/#configs
-      # You could use Docker Secrets too:
-      # https://docs.docker.com/compose/compose-file/#secrets
-      # Or build your own Docker image for Caddy and add your Caddyfile.
-      # I'm assuming this
     ports:
       - "80:80"
       - "443:443"
@@ -32,25 +27,23 @@ services:
       retries: 6
       # When Caddy is requesting a Let's encrypt certificate it can take some time
       start_period: 120s
-    # If you want replicated Caddy (it's nice for ):
-    # deploy:
-    #   mode: replicated
-    #   replicas: 2
-    #   restart_policy:
-    #     condition: on-failure
-    #     delay: 5s
-    #     max_attempts: 3
-    #     window: 40s
-    #   rollback_config:
-    #     parallelism: 1
-    #     delay: 10s
-    #     order: stop-first
-    #   update_config:
-    #     parallelism: 1
-    #     delay: 10s
-    #     order: stop-first
-    #     failure_action: rollback
-
+    deploy:
+      mode: replicated
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 40s
+      rollback_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+        failure_action: rollback
 
 volumes:
   # This volume is useful for caddy to store the certificates.

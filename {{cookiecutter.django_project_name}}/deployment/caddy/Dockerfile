@@ -8,5 +8,6 @@ FROM douglasmiranda/caddy
 # - you may want to use comercial version of Caddy
 # - you may want to build Caddy yourself: https://github.com/douglasmiranda/dockerfiles/tree/master/caddy/simple
 # - you may want to build Caddy with plugins: https://github.com/douglasmiranda/dockerfiles/tree/master/caddy/plugins
+# - https://github.com/douglasmiranda/lab/tree/master/caddy-cloudflare
 # - ...
 COPY Caddyfile /etc/caddy/Caddyfile
