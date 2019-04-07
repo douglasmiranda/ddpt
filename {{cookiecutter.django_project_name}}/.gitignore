@@ -18,3 +18,10 @@ coverage.xml
 # Translations
 *.mo
 *.pot
+
+# terraform generated stuff
+.terraform/
+terraform.tfstate*
+
+# ansible
+site.retry

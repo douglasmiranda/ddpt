@@ -28,6 +28,10 @@ trim_trailing_whitespace = false
 [Makefile]
 indent_style = tab
 
+[Caddyfile]
+indent_style = space
+indent_size = 4
+
 [nginx.conf]
 indent_style = space
 indent_size = 2
