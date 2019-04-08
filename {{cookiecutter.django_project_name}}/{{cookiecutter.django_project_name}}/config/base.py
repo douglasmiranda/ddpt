@@ -2,16 +2,21 @@
 Base settings for {{cookiecutter.project_name}} project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/2.0/topics/settings/
+https://docs.djangoproject.com/en/dev/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/2.0/ref/settings/
+https://docs.djangoproject.com/en/dev/ref/settings/
 """
 from pathlib import Path
 
 from gconfigs import envs
 
 DEBUG = False
+
+# Hosts/domain names that are valid for this site
+# See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
+# IMPORTANT: It's better to do this on the nginx / caddy
+ALLOWED_HOSTS = envs.as_list("ALLOWED_HOSTS", default=["*"])
 
 # Splitting INSTALLED_APPS into separated 'categories'
 DJANGO_APPS = [
@@ -63,7 +68,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         # it's kinda common to use db name same as the postgres user
-        "NAME": envs("POSTGRES_DB", default=None) or envs("POSTGRES_USER", default="postgres"),
+        "NAME": envs("POSTGRES_DB", default=None)
+        or envs("POSTGRES_USER", default="postgres"),
         "USER": envs("POSTGRES_USER", default="postgres"),
         # allow empty pass, but will enforce non-empty password on production.py
         "PASSWORD": envs("POSTGRES_PASSWORD", default=""),
@@ -75,7 +81,7 @@ DATABASES = {
 }
 
 # Internationalization
-# https://docs.djangoproject.com/en/2.0/topics/i18n/
+# https://docs.djangoproject.com/en/dev/topics/i18n/
 TIME_ZONE = envs("TIME_ZONE", default="UTC")
 LANGUAGE_CODE = envs("LANGUAGE_CODE", default="en-us")
 SITE_ID = 1

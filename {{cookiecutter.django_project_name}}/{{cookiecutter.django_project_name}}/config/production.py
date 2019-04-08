@@ -65,8 +65,11 @@ AWS_AUTO_CREATE_BUCKET = True
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = "public-read"
+# If you se a CDN in front of your S3, for example
+# you'll need to set this:
+# AWS_S3_CUSTOM_DOMAIN = "mycdn.mydomain-or-cnd-domain.com"
 
-_AWS_EXPIRY = 60 * 60 * 24 * 7
+_AWS_EXPIRY = 60 * 60 * 24 * 365  # One year
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': f'max-age={_AWS_EXPIRY}, s-maxage={_AWS_EXPIRY}, must-revalidate',
@@ -221,22 +224,19 @@ LOGGING = {
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
     },
     {
         # The default minimum is 8 characters
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
         # Set the length, example:
         # 'OPTIONS': {
         #     'min_length': 9,
         # }
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 # Additional production stuff:
+
