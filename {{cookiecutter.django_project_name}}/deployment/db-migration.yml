@@ -1,0 +1,52 @@
+version: '3.7'
+
+# Migrations need to be performed as a one time job
+# every time you change your Django models.
+
+# Why not run migrations in my entrypoint, so everytime we deploy/update
+# migrations will be performed?
+# - Migrations are a delicate subject, and we want to make sure we have
+# the control of our actions, so we can fit the task of running migrations
+# in any stage of our deployment, manually or automated by our CD (Continous Delivery/Deployment)
+
+# Run your migrations:
+# docker stack deploy --compose-file=db-migration.yml {{cookiecutter.django_project_name}}
+# Check if everything went ok:
+# docker service logs -f {{cookiecutter.django_project_name}}_django-migrate
+
+services:
+  django-migrate:
+    image: ${DJANGO_IMAGE}
+    secrets:
+      - DJANGO_SECRET_KEY
+      - POSTGRES_PASSWORD{% if cookiecutter.use_mailgun == 'y' %}
+      - MAILGUN_API_KEY
+      - MAILGUN_SENDER_DOMAIN{% endif %}{% if cookiecutter.use_s3 == 'y' %}
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_STORAGE_BUCKET_NAME{% endif %}
+    deploy:
+      restart_policy:
+        condition: none
+      placement:
+        constraints:
+          - node.role == manager
+    command:
+      - django-admin
+      - migrate
+
+secrets:
+  DJANGO_SECRET_KEY:
+    external: true
+  POSTGRES_PASSWORD:
+    external: true{% if cookiecutter.use_mailgun == 'y' %}
+  MAILGUN_API_KEY:
+    external: true
+  MAILGUN_SENDER_DOMAIN:
+    external: true{% endif %}{% if cookiecutter.use_s3 == 'y' %}
+  AWS_ACCESS_KEY_ID:
+    external: true
+  AWS_SECRET_ACCESS_KEY:
+    external: true
+  AWS_STORAGE_BUCKET_NAME:
+    external: true{% endif %}
