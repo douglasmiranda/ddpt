@@ -49,16 +49,24 @@ stack-rm: ## #__danger This will stop and remove your running containers (won't 
 	$(call proceed_or_not)
 	docker stack rm $(STACK_NAME)
 
-# Depending on how you deploy, you may want to build some artifacts before deploying
+# Depending on how you deploy, you may want to build/push some artifacts before deploying
 # - Docker images
 # - Compile things
 # - Do some cleaning
 # But hopefully you already do these things in your CI/CD.
 build: ## Build things you need before deployment
 	@echo "\033[34mBuilding things for deployment\033[0m"
-	# TODO
-	# For example:
-	# docker build --target=production -t {{cookiecutter.django_project_name}}/django .
+	docker build --target=production -t my-registry.com/{{cookiecutter.django_project_name}}/django -f ../Dockerfile ../
+	docker build -t my-registry.com/{{cookiecutter.django_project_name}}/caddy -f caddy/Dockerfile ./caddy/
+
+push: ## Push images to registry
+	# docker login my-registry.com
+	docker push my-registry.com/{{cookiecutter.django_project_name}}/django
+	docker push my-registry.com/{{cookiecutter.django_project_name}}/caddy
 
 migrate: ## ATTENTION! Execute the databases migrations, check: ./db-migration.yml
-    docker exec $(docker ps -q -f name=$(STACK_NAME)_django -f health=healthy -n 1) sh -c "source docker-secrets-to-env-var.sh && django-admin migrate"
+	docker stack deploy --with-registry-auth --compose-file=db-migration.yml $(STACK_NAME)
+	@echo "Check if everything went ok with: \033[33mmake migration-logs\033[0m"
+
+migration-logs: ## Follow the live logs of your latest migration. (given you already performed "make migrate")
+	docker service logs -f $(STACK_NAME)_django-migrate
