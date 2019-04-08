@@ -52,13 +52,13 @@ This is a template for Django Projects. Ready to run with Docker, with developme
 Let's pretend you want to create a Django project called "redditclone". Rather than using `startproject`
 and then editing the results to include your name, email, and various configuration issues that always get forgotten until the worst possible moment, get cookiecutter_ to do all the work.
 
-First, get Cookiecutter. Trust me, it's awesome::
+First, get [Cookiecutter](https://github.com/audreyr/cookiecutter). Trust me, it's awesome:
 
 ```bash
-pip install "cookiecutter"
+pip install cookiecutter
 ```
 
-Now run it against this repo::
+Now run it against this repo:
 
 ```bash
 cookiecutter https://github.com/douglasmiranda/ddpt
@@ -68,18 +68,18 @@ You'll be prompted for some values. Provide them, then a Django project will be 
 
 **Warning**: After this point, change 'Douglas', 'douglascoding', etc to your own information.
 
-Answer the prompts with your own desired options_. For example::
+Answer the prompts with your own desired options_. For example:
 
     TODO
 
-Enter the project and take a look around::
+Enter the project and take a look around:
 
 ```bash
 cd reddit/
 ls
 ```
 
-Create a git repo and push it there::
+Create a git repo and push it there:
 
 ```bash
 git init
