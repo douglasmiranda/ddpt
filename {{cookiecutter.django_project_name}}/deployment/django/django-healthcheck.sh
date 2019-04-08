@@ -11,4 +11,6 @@ set -o pipefail
 # localhost:5000/ to some available endpoint, otherwise the health check will fail.
 # For example: localhost:5000/admin
 # IMPORTANT: In Docker Swarm if a health check fail, the container will be restarted.
+# That's a naive healthcheck, as your application get complex, you'll need a better way
+# to determine if your Django project is running as it should.
 wget --spider localhost:5000/ || exit 1

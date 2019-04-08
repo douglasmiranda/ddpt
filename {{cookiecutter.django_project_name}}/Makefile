@@ -4,6 +4,7 @@
 PROJECT_DIR_NAME:={{cookiecutter.django_project_name}}
 ENTER_DJANGO:=docker-compose exec django
 ENTER_DJANGO_ROOT:=docker-compose exec --user=root django
+DJANGO_USER_UID:=$(shell id -u)
 
 # You may want to install awk if you don't have already
 # google it: Install awk in Windows|Linux|MacOS
@@ -16,13 +17,13 @@ help: ## show make targets
 
 build: ## build necessary stuff for our project to run (docker images)
 	@$(MAKE) clean-py || printf "\n\033[33mWasn't able to execute clean-py, maybe some file permissions issue! But build anyway.\033[0m\n\n"
-	docker-compose build
+	DJANGO_USER_UID=$(DJANGO_USER_UID) docker-compose build
 
 run: ## start containers with docker-compose and attach to logs
-	docker-compose up
+	DJANGO_USER_UID=$(DJANGO_USER_UID) docker-compose up
 
 rund: ## start containers with docker-compose (detached mode)
-	docker-compose up -d
+	DJANGO_USER_UID=$(DJANGO_USER_UID) docker-compose up -d
 
 stop: ## stop all running containers for this project
 	docker-compose stop

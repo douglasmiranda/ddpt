@@ -28,7 +28,18 @@ version: '3.7'
 
 services:
   django:
-    image: {{cookiecutter.django_project_name}}/django
+    # You may want to set $DJANGO_IMAGE in your CI/CD or whatever deployment strategy you use.
+    # Often we build our_image:$COMMIT_SHA, so we can have a better control over rollbacks
+    # Using our_image:latest is not a good idea, makes hard to debug, it's always better to use
+    # versioned images
+    image: ${DJANGO_IMAGE}
+    # image: {{cookiecutter.django_project_name}}/django:${DJANGO_IMAGE_VERSION}
+    # If your Django services are replicated in multiple hosts, simple volumes are not a good idea.
+    # You'll a shared volume, distributed storage, things like that, so keep this in mind.
+    # But if your're deploying in a single node, it may be useful.
+    # volumes:
+    #   - django_static_root:/django/static-root/
+    #   - django_media_root:/django/media-root/
     secrets:
       - DJANGO_SECRET_KEY
       - POSTGRES_PASSWORD{% if cookiecutter.use_mailgun == 'y' %}
@@ -40,11 +51,11 @@ services:
     healthcheck:
       test:
         - "CMD-SHELL"
-        - "sh /django/healthchecks.sh"
+        - "sh /django/django-healthcheck.sh"
       interval: 45s
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 2
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -55,9 +66,9 @@ services:
         delay: 10s
         order: stop-first
       update_config:
-        parallelism: 1
+        parallelism: 2
         delay: 10s
-        order: stop-first
+        order: start-first
         failure_action: rollback
     command:
       - gunicorn
@@ -65,10 +76,9 @@ services:
       - "0.0.0.0:5000"
       - {{cookiecutter.django_project_name}}.config.wsgi:application
 
-
-volumes:
-  django_media_root: {}
-  django_static_root: {}
+# volumes:
+#   django_media_root: {}
+#   django_static_root: {}
 
 secrets:
   DJANGO_SECRET_KEY:
