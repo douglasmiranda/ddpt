@@ -1,5 +1,7 @@
 # Deployment
 
+TODO
+
 Before You Deploy Things
 Before you start deploying you'll probably need to create some secrets.
 For example: openssl rand -base64 20 | docker secret create POSTGRES_PASSWORD -
