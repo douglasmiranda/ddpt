@@ -101,44 +101,44 @@ Keep your pull requests small. Better yet, explain what you plan to do in the is
 
 - https://docs.docker.com/compose/
 - https://docs.docker.com/engine/swarm/
-- https://docs.docker.com/engine/reference/commandline/stack/
 - https://docs.docker.com/engine/swarm/secrets/
 - https://docs.docker.com/engine/swarm/configs/
+- https://docs.docker.com/engine/reference/commandline/stack/
 
 
 ### Python/Django
 
 - https://gunicorn.org/
-- https://whitenoise.readthedocs.io/
-- https://github.com/anymail/django-anymail
-- https://github.com/django-extensions/django-extensions
-- https://pypi.org/project/ipdb/
 - https://github.com/ambv/black
-- https://github.com/jazzband/django-debug-toolbar
+- https://pypi.org/project/ipdb/
+- https://whitenoise.readthedocs.io/
 - https://docs.pytest.org/en/latest/
-- https://pytest-django.readthedocs.io/en/latest/
+- https://github.com/anymail/django-anymail
 - https://factoryboy.readthedocs.io/en/latest/
+- https://pytest-django.readthedocs.io/en/latest/
+- https://github.com/jazzband/django-debug-toolbar
+- https://github.com/django-extensions/django-extensions
 
 ### Docker Images
 
+- https://hub.docker.com/_/redis
 - https://hub.docker.com/_/python
 - https://hub.docker.com/_/postgres
-- https://hub.docker.com/_/redis
 - https://hub.docker.com/r/mailhog/mailhog
 - https://hub.docker.com/r/douglasmiranda/caddy
 
 ### Others
 
-- https://github.com/audreyr/cookiecutter
-- https://github.com/mailhog/MailHog
-- https://sentry.io/welcome/
+- http://www.mailgun.com/
 - https://caddyserver.com/
 - https://letsencrypt.org/
-- http://www.mailgun.com/
+- https://sentry.io/welcome/
+- https://github.com/mailhog/MailHog
+- https://github.com/audreyr/cookiecutter
 
 ### Me
 
-- https://github.com/douglasmiranda/django-admin-bootstrap
 - https://github.com/douglasmiranda/lab
-- https://github.com/douglasmiranda/dockerfiles
 - https://github.com/douglasmiranda/gconfigs
+- https://github.com/douglasmiranda/dockerfiles
+- https://github.com/douglasmiranda/django-admin-bootstrap
