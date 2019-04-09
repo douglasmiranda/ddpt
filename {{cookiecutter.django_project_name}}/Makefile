@@ -17,13 +17,13 @@ help: ## show make targets
 
 build: ## build necessary stuff for our project to run (docker images)
 	@$(MAKE) clean-py || printf "\n\033[33mWasn't able to execute clean-py, maybe some file permissions issue! But build anyway.\033[0m\n\n"
-	DJANGO_USER_UID=$(DJANGO_USER_UID) docker-compose build
+	docker-compose build --build-arg DJANGO_USER_UID=$(DJANGO_USER_UID)
 
 run: ## start containers with docker-compose and attach to logs
-	DJANGO_USER_UID=$(DJANGO_USER_UID) docker-compose up
+	docker-compose up --no-build
 
 rund: ## start containers with docker-compose (detached mode)
-	DJANGO_USER_UID=$(DJANGO_USER_UID) docker-compose up -d
+	docker-compose up --no-build -d
 
 stop: ## stop all running containers for this project
 	docker-compose stop
