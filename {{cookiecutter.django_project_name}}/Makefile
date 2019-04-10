@@ -11,7 +11,7 @@ DJANGO_USER_UID:=$(shell id -u)
 help: ## show make targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 	awk 'BEGIN {FS = ":.*?## "}; \
-		{printf "\033[36m%-20s", $$1} \
+		{printf "\033[36m%-25s", $$1} \
 		/#__danger/ {printf "\033[31m%s ", "DANGER"} \
 		{gsub(/#__danger /, ""); printf "\033[0m%s\n", $$2}'
 
@@ -105,3 +105,9 @@ first-run: ## #__danger This will run migrations and create a INSECURE superuser
 
 	$(ENTER_DJANGO) python manage.py migrate
 	$(ENTER_DJANGO) python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('a', 'a@a.co', 'a')"
+
+fix-volume-permission: ## Fix common volume permissions
+	# Use the same UID inside and outside the container
+	docker-compose run --rm --user=root django usermod -u $(DJANGO_USER_UID) django
+	# Make sure the project is owned by the user
+	docker-compose run --rm --user=root django chown -R django:nogroup ./$(PROJECT_DIR_NAME)
