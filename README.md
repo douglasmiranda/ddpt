@@ -44,7 +44,7 @@ This is a template for Django Projects. Ready to run with Docker, with developme
 * Django 2.2 + Python 3.6/3.7
 * Using Alpine Linux based images
 * Setup close to production + nice dev tools when local
-* Ready to use [Docker Secrets](https://docs.docker.com/engine/swarm/secrets/) for keeping you sensitive data safe
+* Ready to use [Docker Secrets](https://docs.docker.com/engine/swarm/secrets/) for keeping your sensitive data safe
 * Ready to use [Docker Configs](https://docs.docker.com/engine/swarm/configs/) if you want
 * Development:
   * Build and run with Docker Compose
@@ -170,7 +170,7 @@ Let's see the project structure:
 │   ├── db-migration.yml
 │   ├── django
 │   │   ├── django-entrypoint.sh
-│   │   └── django-healthcheck.sh
+│   │   └── django-health check.sh
 │   ├── docker-stack.caddy.yml
 │   ├── docker-stack.django.yml
 │   ├── docker-stack.postgres.yml
@@ -210,7 +210,7 @@ docker-compose build --build-arg DJANGO_USER_UID=1001
 
 #### Build, run and manage with Makefile
 
-There are many commands we run all day long during development, so I made a **Makefile** that contains some good common tasks to help you get more productive. Next we'll see what's in that Makefile.
+There are many commands we run all day long during development, so I made a **Makefile** that contains some good common tasks to help you get more productive. Next, we'll see what's in that Makefile.
 
 > [Makefile](Makefile)
 
@@ -278,7 +278,7 @@ docker-compose exec django sh
 
 And with `python manage.py` commands you do what you usually do. (Run migrations, create super user...)
 
-But I do have a shorcut for this too. xD
+But I do have a shortcut for this too. xD
 
 ```bash
 # Using our shortcut
@@ -291,7 +291,7 @@ If for some reason you still have a problem with volume permissions, there's a f
 
 ## Why Am I doing things this way?
 
-Well, this is an opionated project template, if you have more questions, don't be shy, open an issue.
+Well, this is an opinionated project template, if you have more questions, don't be shy, open an issue.
 
 Next, I'll try to answer some questions.
 
@@ -299,15 +299,15 @@ Next, I'll try to answer some questions.
 
 #### Unprivileged user
 
-That's because it's more secure to run processes with non-privileged users. You could choose to run in development as root, but in Django we're always running commands that generate files, and you'll be doing that from inside the container, therefore creating files as root and you can't write to them with you normal host user. You'll be always executing `sudo chown ...`. Plus I'm trying to keep things close to production here.
+That's because it's more secure to run processes with non-privileged users. You could choose to run in development as root, but in Django we're always running commands that generate files, and you'll be doing that from inside the container, therefore creating files as root and you can't write to them with your normal host user. You'll be always executing `sudo chown ...`. Plus I'm trying to keep things close to production here.
 
-In Linux what matters is not the human readable user name like "django". What really matters is the `UID`, and they can differ from one Linux distribution to another, so you have to make sure to use the same `UID` for both the container user and you host user.
+In Linux what matters is not the human-readable user name like "django". What really matters is the `UID`, and they can differ from one Linux distribution to another, so you have to make sure to use the same `UID` for both the container user and you host user.
 
 You can find your user `UID` with `id -u $USER`.
 
 #### Fix permissions in a shared code volume using a common UID
 
-As you can see in our [docker-compose.yml](docker-compose.yml) file we have our Django code shared with the Django container. In projects like this, we create files from outside and from inside the container, and this can lead to some permission issues in development. (Not only in dev, but for our production version we apply the correct owner to the files when copying, so no problem there.)
+As you can see in our [docker-compose.yml](docker-compose.yml) file we have our Django code shared with the Django container. In projects like this, we create files from outside and from inside the container, and this can lead to some permission issues in development. (Not only in dev but for our production version we apply the correct owner to the files when copying, so no problem there.)
 
 The approach I chose here was to use your user `UID` as the `UID` of the user **django** inside the container.
 
@@ -323,7 +323,7 @@ Debian, Ubuntu and other images are great too, you can make changes and use them
 
 ### Where's NGINX?
 
-I'm using Caddy as reverse proxy for Django, it's simple, great, full of features, easy HTTPS. Depending on the size of you project and audience, you'll probably face some other issues with optimization before you get to optimize your Web Server.
+I'm using Caddy as a reverse proxy for Django, it's simple, great, full of features, easy HTTPS. Depending on the size of your project and audience, you'll probably face some other issues with optimization before you get to optimize your Web Server.
 
 *But I will provide NGINX configs with HTTPS soon.
 
@@ -343,11 +343,11 @@ You can deploy in [Docker Swarm](https://docs.docker.com/engine/swarm/) with the
 
 ##### Control
 
-You can control resources usage, how it will be restarted if needed, healthchecks, replicas and more.
+You can control resources usage, how it will be restarted if needed, health checks, replicas and more.
 
 ##### Automatic rollback
 
-The thing about healthcheck is that you can do auto rollback, which is awesome. Everytime you redeploy, if your new update breaks the healthcheck, Docker will automatically rollback to the previous configuration.
+The thing about health check is that you can do auto-rollback, which is awesome. Every time you redeploy, if your new update breaks the health check, Docker will automatically rollback to the previous configuration.
 
 ##### Zero downtime deployment
 
@@ -361,9 +361,9 @@ The flow is basically:
   - make sure they are healthy
   - stop the old replicas
 - If everything went ok, docker ingress network will redirect the requests to the new replicas
-- If the updated replicas are not fine, the healthcheck reported failure, Docker start the rollback to the previous settings
+- If the updated replicas are not fine, the health check reported failure, Docker start the rollback to the previous settings
 
-Of course it can be more complicated than that, you probably need to run some simulated scenarios in order to decide if this is enough for your project.
+Of course, it can be more complicated than that, you probably need to run some simulated scenarios in order to decide if this is enough for your project.
 
 ##### Security
 
@@ -375,13 +375,13 @@ You may want to learn about connecting to Docker remotely using TLS and improve 
 
 #### Single Node
 
-As I said before, you can enjoy Docker Swarm in a single machine, you don't need to configure a multi node setup.
+As I said before, you can enjoy Docker Swarm in a single machine, you don't need to configure a multi-node setup.
 
 If you are in a single node, you can use volumes and don't even need to worry about replicas placement, almost just like with Docker Compose.
 
 #### Multiple Nodes
 
-Well, I can't possibly cover here in some notes the challenges that distributed systems bring. But I can list some specific notes to Django in a multi node setup and Docker Swarm.
+Well, I can't possibly cover here in some notes the challenges that distributed systems bring. But I can list some specific notes to Django in a multi-node setup and Docker Swarm.
 
 ##### Databases and Storages
 
@@ -389,11 +389,11 @@ I won't cover clustering databases, that's really extensive.
 
 I won't cover distributed storages either for the same reason.
 
-But let's say your scenario is: You have to go multi-node, but only for some workers and some containers you're running, maybe it's because they are memory/cpu intensive or something like that. Your Django application, some volume, maybe the database, can stay in the same node(s) and you would like a nice solution to fit that design.
+But let's say your scenario is: You have to go multi-node, but only for some workers and some containers you're running, maybe it's because they are memory/CPU intensive or something like that. Your Django application, some volume, maybe the database, can stay in the same node(s) and you would like a nice solution to fit that design.
 
 You could get something from [placement](https://docs.docker.com/compose/compose-file/#placement) in your Docker Stack/Compose files.
 
-"Easy" solution is: Use something like S3 for storage and any database as a service from your hosting/cloud provider and go crazy on replicate and manage your application/worker containers with Docker Swarm, that way you probably will face less issues.
+"Easy" solution is: Use something like S3 for storage and any database as a service from your hosting/cloud provider and go crazy on replicate and manage your application/worker containers with Docker Swarm, that way you probably will face fewer issues.
 
 ---
 
