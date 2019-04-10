@@ -85,7 +85,7 @@ ENV PYTHONBREAKPOINT=ipdb.set_trace
 RUN apk --no-cache add shadow
 # Please inform this build arg, you can find your ID with `id -u $USER`
 # https://github.com/douglasmiranda/lab/tree/master/docker-volume-share-user-host-container
-ARG DJANGO_USER_UID
+ARG DJANGO_USER_UID=1000
 RUN usermod -u ${DJANGO_USER_UID} django
 
 USER django
