@@ -41,7 +41,7 @@ This is a template for Django Projects. Ready to run with Docker, with developme
 
 ## Features
 
-* Django 2.2 + Python 3.6/3.7
+* Django 2.2 + Python 3.6 / 3.7
 * Using Alpine Linux based images
 * Setup close to production + nice dev tools when local
 * Ready to use [Docker Secrets](https://docs.docker.com/engine/swarm/secrets/) for keeping your sensitive data safe
@@ -59,7 +59,7 @@ This is a template for Django Projects. Ready to run with Docker, with developme
   * Serve static files with Whitenoise
   * Redis for Cache and Session Storage
   * Send emails via Anymail (using Mailgun_ by default, but switchable)
-* Bonus: Check the `Makefile`, you'll see lots of shortcuts to speed up your development
+* Bonus: Check the [Makefile](%7B%7Bcookiecutter.django_project_name%7D%7D/Makefile), you'll see lots of shortcuts to speed up your development
 
 ## Optional Integrations
 
@@ -212,7 +212,7 @@ docker-compose build --build-arg DJANGO_USER_UID=1001
 
 There are many commands we run all day long during development, so I made a **Makefile** that contains some good common tasks to help you get more productive. Next, we'll see what's in that Makefile.
 
-> [Makefile](Makefile)
+> [Makefile](%7B%7Bcookiecutter.django_project_name%7D%7D/Makefile)
 
 Don't fear the Makefile, it's not that weird to read. It contains common commands that we run during development, so you can change and improve to fit your daily flow.
 
@@ -307,7 +307,7 @@ You can find your user `UID` with `id -u $USER`.
 
 #### Fix permissions in a shared code volume using a common UID
 
-As you can see in our [docker-compose.yml](docker-compose.yml) file we have our Django code shared with the Django container. In projects like this, we create files from outside and from inside the container, and this can lead to some permission issues in development. (Not only in dev but for our production version we apply the correct owner to the files when copying, so no problem there.)
+As you can see in our [docker-compose.yml](%7B%7Bcookiecutter.django_project_name%7D%7D/docker-compose.yml) file we have our Django code shared with the Django container. In projects like this, we create files from outside and from inside the container, and this can lead to some permission issues in development. (Not only in dev but for our production version we apply the correct owner to the files when copying, so no problem there.)
 
 The approach I chose here was to use your user `UID` as the `UID` of the user **django** inside the container.
 
