@@ -252,7 +252,7 @@ make build
 
 Our build target it's basically `docker-compose build`. But it will discover our (host) user `UID` and set as the UID of the **django** user inside the container.
 
-> [Why create a "django" user in the Django image?](#why-create-a-%22django%22-user-in-the-django-image)
+> [Why create a "django" user in the Django image?](#why-create-a-django-user-in-the-django-image)
 
 ##### 2 - Run
 
