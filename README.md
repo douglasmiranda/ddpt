@@ -32,6 +32,7 @@ This is a template for Django Projects. Ready to run with Docker, with developme
       - [Multiple Nodes](#multiple-nodes)
         - [Databases and Storages](#databases-and-storages)
   - [Submit a Pull Request](#submit-a-pull-request)
+  - [TODO](#todo)
   - [Related links](#related-links)
     - [Docker](#docker)
     - [Python/Django](#pythondjango)
@@ -60,6 +61,8 @@ This is a template for Django Projects. Ready to run with Docker, with developme
   * Redis for Cache and Session Storage
   * Send emails via Anymail (using Mailgun_ by default, but switchable)
 * Bonus: Check the [Makefile](%7B%7Bcookiecutter.django_project_name%7D%7D/Makefile), you'll see lots of shortcuts to speed up your development
+
+> [TODO](#todo)
 
 ## Optional Integrations
 
@@ -400,6 +403,18 @@ You could get something from [placement](https://docs.docker.com/compose/compose
 ## Submit a Pull Request
 
 Keep your pull requests small. Better yet, explain what you plan to do in the issues, it will save time in the end.
+
+## TODO
+
+- Deployment docs #6
+- Deployment: Provisioning (info, examples, docs...) #2
+- More info about Docker Swarm
+  - maybe more information about using even if it's single node
+- More information on Storages (Static/Media files) #7
+  - remove / make optional whitenoise
+  - alternative to S3 (maybe Minio would be nice)
+  - CDN
+- CI/CD docs and/or examples #3
 
 ## Related links
 
