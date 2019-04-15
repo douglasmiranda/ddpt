@@ -406,15 +406,15 @@ Keep your pull requests small. Better yet, explain what you plan to do in the is
 
 ## TODO
 
-- Deployment docs #6
-- Deployment: Provisioning (info, examples, docs...) #2
+- Deployment docs [#6](https://github.com/douglasmiranda/ddpt/issues/6)
+- Deployment: Provisioning (info, examples, docs...) [#2](https://github.com/douglasmiranda/ddpt/issues/2)
 - More info about Docker Swarm
   - maybe more information about using even if it's single node
-- More information on Storages (Static/Media files) #7
+- More information on Storages (Static/Media files) [#7](https://github.com/douglasmiranda/ddpt/issues/7)
   - remove / make optional whitenoise
   - alternative to S3 (maybe Minio would be nice)
   - CDN
-- CI/CD docs and/or examples #3
+- CI/CD docs and/or examples [#3](https://github.com/douglasmiranda/ddpt/issues/3)
 
 ## Related links
 
