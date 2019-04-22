@@ -35,8 +35,8 @@ services:
     image: ${DJANGO_IMAGE}
     # image: {{cookiecutter.django_project_name}}/django:${DJANGO_IMAGE_VERSION}
     # If your Django services are replicated in multiple hosts, simple volumes are not a good idea.
-    # You'll a shared volume, distributed storage, things like that, so keep this in mind.
-    # But if your're deploying in a single node, it may be useful.
+    # You'll need a shared volume, distributed storage, things like that, so keep this in mind.
+    # But if you're deploying in a single node, it may be useful.
     # volumes:
     #   - django_static_root:/django/static-root/
     #   - django_media_root:/django/media-root/
