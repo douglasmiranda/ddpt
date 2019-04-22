@@ -1,5 +1,10 @@
 version: '3.7'
 
+# IMPORTANT: About stateful services
+# If you're running single node, ok you can proceed as you would do normally.
+# Now, if you intend to run multi-node, please keep in mind it takes much more
+# than this file to run a Postgres in a distributed environment.
+
 # https://docs.docker.com/get-started/part4/#create-a-cluster
 # In your Docker Swarm manager node:
 # https://docs.docker.com/engine/swarm/secrets/
@@ -23,6 +28,7 @@ services:
       test:
         - "CMD-SHELL"
         - "pg_isready -U postgres"
+    # Read the note about stateful services at the beggining of this file.
     deploy:
       placement:
         constraints:

@@ -1,5 +1,10 @@
 version: '3.7'
 
+# IMPORTANT: About stateful services
+# If you're running single node, ok you can proceed as you would do normally.
+# Now, if you intend to run multi-node, please keep in mind it takes much more
+# than this file to run a Redis in a distributed environment.
+
 # Deploy:
 # docker stack deploy --compose-file=./docker-stack.redis.yml {{cookiecutter.django_project_name}}
 
@@ -10,3 +15,8 @@ services:
       test:
         - "CMD-SHELL"
         - "test $$(redis-cli ping) || exit 1"
+    # Read the note about stateful services at the beggining of this file.
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
