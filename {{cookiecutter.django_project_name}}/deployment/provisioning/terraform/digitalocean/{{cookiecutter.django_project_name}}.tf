@@ -11,22 +11,22 @@ data "digitalocean_ssh_key" "me" {
   name = "${var.digitalocean_sshkey_name}"
 }
 
-resource "digitalocean_droplet" "ddpt" {
+resource "digitalocean_droplet" "{{cookiecutter.django_project_name}}" {
   image = "debian-9-x64"
-  name = "ddpt-web-1"
+  name = "{{cookiecutter.django_project_name}}-web-1"
   region = "nyc3"
   size = "s-1vcpu-1gb"
   monitoring = true
   private_networking = true
-  tags = ["ddpt", "web"]
+  tags = ["{{cookiecutter.django_project_name}}", "web"]
 
   ssh_keys = ["${data.digitalocean_ssh_key.me.fingerprint}"]
 }
 
-resource "digitalocean_firewall" "web" {
-  name = "ssh-docker-http-https"
+resource "digitalocean_firewall" "{{cookiecutter.django_project_name}}" {
+  name = "{{cookiecutter.django_project_name}}-ssh-docker-http-https"
 
-  droplet_ids = ["${digitalocean_droplet.ddpt.id}"]
+  droplet_ids = ["${digitalocean_droplet.{{cookiecutter.django_project_name}}.id}"]
 
   # Allow incoming ssh, http, https, icmp and Docker remote connection
   inbound_rule = [
