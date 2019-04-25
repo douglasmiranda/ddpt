@@ -38,7 +38,7 @@ so you can ssh into it and do the things you want.
 I'm going to use a tool called Terraform to create our Debian instance on Digital Ocean and/or Linode.
 
 The steps are so similar for Digital Ocean and Linode, that I could just show you how to do this in only one
-of them. Maybe in the future I'll add an example for AWS too.
+of them. Maybe in the future, I'll add an example for AWS too.
 
 > Create a [Digital Ocean](https://m.do.co/c/6c759c705865) account.
 
@@ -49,7 +49,7 @@ OR
 **NOTE:** If you find this subject new/complicated/unnecessary for you, just go to your favorite provider
 and manually create an instance with Debian Stretch and jump to [Configuration Management](#configuration-management) section.
 
-Basically we need a instance more or less like this:
+Basically, we need an instance more or less like this:
 
 - Debian Stretch (You can go with Ubuntu, Alpine, whatever, as long as you know your way around the distro)
 - Basic resources like 1GB RAM, 1CPU...
@@ -83,8 +83,7 @@ I provided to fit your plans.
 
 > [Digital Ocean Provider](https://www.terraform.io/docs/providers/do/index.html)
 
-In order to create our instance/droplet with the files I provided you'll need a API token and the name of
-your SSH key available in your Digital Ocean dashboard.
+You'll need an API token and the name of your SSH key available in your Digital Ocean dashboard, so you can use the files the way I provided them.
 
 ## Configuration Management
 
