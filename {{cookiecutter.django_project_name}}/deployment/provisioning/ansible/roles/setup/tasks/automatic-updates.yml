@@ -1,0 +1,18 @@
+---
+
+# It is important to enable automatic upgrade for security related packages.
+
+# For automatic updates we'll use unattended-upgrades package.
+- name: "Install unattended-upgrades package"
+  apt:
+    state: "present"
+    pkg: "unattended-upgrades"
+
+- name: Adjust APT update intervals
+  copy:
+    content: |
+      APT::Periodic::Update-Package-Lists "1";
+      APT::Periodic::Download-Upgradeable-Packages "1";
+      APT::Periodic::AutocleanInterval "7";
+      APT::Periodic::Unattended-Upgrade "1";
+    dest: /etc/apt/apt.conf.d/10periodic

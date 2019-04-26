@@ -1,0 +1,30 @@
+---
+# Various security related tasks for securing access to the server
+
+- name: "Install a list of packages related to securing access"
+  apt:
+  {% raw %}
+    name: "{{ packages }}"
+  {% endraw %}
+  vars:
+    packages:
+      - "fail2ban"
+      # Using Digital Ocean Cloud Firewall
+      # - "ufw"
+
+# Better security for SSH access
+- name: "Disallow password authentication"
+  lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+    state: "present"
+  notify: "Restart ssh"
+
+- name: "Disallow root SSH access"
+  lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+    state: "present"
+  notify: "Restart ssh"

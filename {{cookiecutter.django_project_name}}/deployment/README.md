@@ -87,11 +87,33 @@ You'll need an API token and the name of your SSH key available in your Digital 
 
 ## Configuration Management
 
-TODO
+In this project we're focusing in a more advanced deployment, so for this step you could use tools to
+automate the configuration of your server too. I will provide an Ansible Playbook for you, if you don't
+know [Ansible](https://www.ansible.com/) or use another tool for this OR just don't want to mess with those
+things right now, here's the list of what we need:
+
+(Basics)
+- A Linux server (I'm using Debian Stretch for this project)
+- SSH access
+- An up-to-date Docker installation.
+
+(Recommended)
+- Change root password
+- Create a non-root user
+- Disallow ssh login with root 
+- Disallow ssh login with password (allow only ssh keys)
+- Install unattended-upgrades (gotta have those automatic updates xD)
+- Install and configure Docker + secure remote connection
 
 ### Ansible
 
-TODO
+I'm assuming you're familiar with Ansible, if not, it's never too late to [learn](https://www.ansible.com/resources/get-started) how to automate things.
+
+I'm providing an Ansible Playbook that will do the config for you, you just need to fill some blanks
+(inform server IP, desired passwords..) and as long as you have access to your Debian Stretch server
+with ssh keys you will know how to deal with the playbook.
+
+> [Check out the information about the Ansible Playbook for this project.](provisioning/ansible)
 
 ## Docker
 

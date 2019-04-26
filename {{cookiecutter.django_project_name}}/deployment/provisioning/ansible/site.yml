@@ -1,0 +1,8 @@
+---
+# This playbook sets up whole stack.
+
+- name: "Configurations to '{{cookiecutter.django_project_name}}' host"
+  hosts: "{{cookiecutter.django_project_name}}"
+  become: yes
+  roles:
+    - setup

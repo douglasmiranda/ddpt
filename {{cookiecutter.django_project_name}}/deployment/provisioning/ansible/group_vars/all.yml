@@ -1,0 +1,13 @@
+root_password: !vault |
+          PLACE HERE THE CONTENTS OF ansible-vault encrypt_string
+
+deploy_user_password: !vault |
+          PLACE HERE THE CONTENTS OF ansible-vault encrypt_string
+
+privatekey_passphrase: !vault |
+          PLACE HERE THE CONTENTS OF ansible-vault encrypt_string
+
+deploy_user_username: "{{cookiecutter.django_project_name}}"
+
+common_packages:
+  - htop

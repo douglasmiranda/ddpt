@@ -1,0 +1,60 @@
+---
+
+# Install sudo while root because sudo will be the default `become_method` for our main user.
+- name: "Install sudo while root"
+  apt:
+    state: "present"
+    pkg: "sudo"
+    update_cache: yes
+  tags:
+    - initial-setup
+
+- name: "Import user management tasks"
+  include_tasks: users.yml
+  tags:
+    - initial-setup
+  # This let's me apply tags to all tasks imported with `include_tasks`
+  args:
+    apply:
+      tags:
+        - initial-setup
+
+# sudo apt-get update
+- name: "Update apt packages"
+  apt:
+    update_cache: yes
+
+- name: "Import security related tasks"
+  include_tasks: securing-access.yml
+
+- name: "Import Docker tasks"
+  include_tasks: docker.yml
+
+- name: "Import automatic updates related tasks"
+  include_tasks: automatic-updates.yml
+
+
+# apt-get upgrade
+# Apt module hangs unexpectedly sometimes when upgrading
+# So you may want to comment this and run manually if you get stuck
+- name: "Upgrade packages to the latest version available"
+  apt:
+    upgrade: "yes"
+
+# sudo apt-get install
+# check host_vars/devtools.yml
+- name: "Install common packages"
+  apt:
+    state: "present"
+    {% raw %}
+    pkg: "{{ common_packages }}"
+    {% endraw %}
+# sudo apt-get autoclean
+- name: Remove useless apt packages from the cache
+  apt:
+    autoclean: yes
+
+# sudo apt-get autoremove
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes

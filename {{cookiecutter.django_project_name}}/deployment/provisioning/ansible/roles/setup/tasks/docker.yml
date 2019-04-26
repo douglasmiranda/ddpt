@@ -1,0 +1,64 @@
+---
+
+# This will install Docker and its dependencies and make the necessary configurations.
+{% raw %}
+- name: "Install packages to allow apt to use a repository over HTTPS"
+  apt:
+    name: "{{ depenencies }}"
+    state: present
+  vars:
+    depenencies:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
+
+- name: "Add Docker’s official GPG key"
+  apt_key:
+    url: "https://download.docker.com/linux/debian/gpg"
+    state: present
+
+- name: "Verify that we have the key with the fingerprint"
+  apt_key:
+    id: 0EBFCD88
+    state: present
+
+- name: "Set up the stable repository"
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/debian stretch stable"
+    state: present
+
+- name: "Install Docker"
+  apt:
+    name: docker-ce=18.*
+    state: present
+    update_cache: yes
+
+- name: "Create 'docker' group"
+  group:
+    name: "docker"
+    state: present
+
+- name: "Add remote '{{ deploy_user_username }}' user to 'docker' group"
+  user:
+    name: "{{ deploy_user_username }}"
+    group: "docker"
+    append: yes
+
+- name: "Tell Systemd to start docker on boot"
+  systemd:
+    name: "docker"
+    state: started
+    enabled: yes
+
+- name: "Get docker info"
+  shell: docker info
+  register: docker_info
+  changed_when: False
+
+- name: "Create primary swarm manager"
+  # Private network ip: ansible_facts.eth1.ipv4.address
+  shell: docker swarm init --advertise-addr {{ ansible_facts.eth1.ipv4.address }}
+  when: "docker_info.stdout.find('Swarm: inactive') != -1"
+{% endraw %}

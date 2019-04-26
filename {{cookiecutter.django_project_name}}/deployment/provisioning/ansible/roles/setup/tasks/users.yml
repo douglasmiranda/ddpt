@@ -1,0 +1,37 @@
+---
+{% raw %}
+- name: "Change root password"
+  user:
+    name: "root"
+    password: "{{ '%s' | format(root_password) | password_hash('sha512') }}"
+
+- name: "Create main user group"
+  group:
+    name: "{{ deploy_user_username }}"
+
+- name: "Create main user"
+  user:
+    name: "{{ deploy_user_username }}"
+    shell: "/bin/bash"
+    password: "{{ '%s' | format(deploy_user_password) | password_hash('sha512') }}"
+    groups:
+      - "{{ deploy_user_username }}"
+      - "sudo"
+
+- name: "Ensure .ssh dir for our new user is present"
+  file:
+    state: "directory"
+    path: /home/{{ deploy_user_username }}/.ssh/
+    owner: "{{ deploy_user_username }}"
+    group: "{{ deploy_user_username }}"
+    mode: 0700
+
+- name: "Copy authorized_keys from root to new user"
+  copy:
+    remote_src: yes
+    src: "/root/.ssh/authorized_keys"
+    dest: "/home/{{ deploy_user_username }}/.ssh/authorized_keys"
+    owner: "{{ deploy_user_username }}"
+    group: "{{ deploy_user_username }}"
+    mode: 0600
+{% endraw %}
