@@ -32,7 +32,7 @@ research about it.
 ## Provisioning
 
 Provisioning can be many things in I.T. but here we're talking about provision a server/instance with the
-appropriated operational system. Let's be specific, we're talking about creating a server with Debian Stretch,
+appropriated operating system. Let's be specific, we're talking about creating a server with Debian Stretch,
 so you can ssh into it and do the things you want.
 
 I'm going to use a tool called Terraform to create our Debian instance on Digital Ocean and/or Linode.
