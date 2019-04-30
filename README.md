@@ -5,7 +5,7 @@ This is a template for Django Projects. Ready to run with Docker, with developme
 - [Django Project Template](#django-project-template)
   - [Features](#features)
   - [Optional Integrations](#optional-integrations)
-  - [Usage](#usage)
+  - [Usage - Development](#usage---development)
     - [Introducing Cookiecutter](#introducing-cookiecutter)
     - [Start the project](#start-the-project)
     - [Running your newly created Django project](#running-your-newly-created-django-project)
@@ -14,8 +14,9 @@ This is a template for Django Projects. Ready to run with Docker, with developme
         - [1 - Build](#1---build)
         - [2 - Run](#2---run)
         - [3 - Firt things on first run](#3---firt-things-on-first-run)
+  - [Usage - Deployment/Production](#usage---deploymentproduction)
   - [Why Am I doing things this way?](#why-am-i-doing-things-this-way)
-    - [Why create a "django" user in the Django image?](#why-create-a-%22django%22-user-in-the-django-image)
+    - [Why create a "django" user in the Django image?](#why-create-a-django-user-in-the-django-image)
       - [Unprivileged user](#unprivileged-user)
       - [Fix permissions in a shared code volume using a common UID](#fix-permissions-in-a-shared-code-volume-using-a-common-uid)
     - [Why Alpine and not Debian or Ubuntu?](#why-alpine-and-not-debian-or-ubuntu)
@@ -75,7 +76,7 @@ This is a template for Django Projects. Ready to run with Docker, with developme
 * Django Admin theme
 
 
-## Usage
+## Usage - Development
 
 ### Introducing Cookiecutter
 
@@ -291,6 +292,12 @@ make first-run
 Basically it runs migrations and add a superuser with username **a** and password **a**.
 
 If for some reason you still have a problem with volume permissions, there's a fix in the Makefile too, just run `make fix-volume-permission`.
+
+## Usage - Deployment/Production
+
+I'm still working in the Deployment/Production docs, but you can check at [deployment/](%7B%7Bcookiecutter.django_project_name%7D%7D/deployment).
+
+My plan is to briefly talk and/or give examples about Provisioning (Terraform), Configuration Management (Ansible), Object Storage, Docker and more.
 
 ## Why Am I doing things this way?
 
