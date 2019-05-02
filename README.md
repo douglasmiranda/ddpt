@@ -1,6 +1,6 @@
 # Django Project Template
 
-This is a template for Django Projects. Ready to run with Docker, with development and production settings.
+Template for Django Projects - From development with `docker-compose` to production with Docker Swarm (`docker stack deploy`).
 
 - [Django Project Template](#django-project-template)
   - [Features](#features)
@@ -58,7 +58,7 @@ This is a template for Django Projects. Ready to run with Docker, with developme
   * Deploy with Docker Swarm (docker stack command)
   * Run your Django using gunicorn
   * Reverse proxy with Caddy (easy HTTPS)
-  * Serve static files with Whitenoise
+  * Serve static files with Whitenoise (planning to remove, not ideal for replicated Django)
   * Redis for Cache and Session Storage
   * Send emails via Anymail (using Mailgun_ by default, but switchable)
 * Bonus: Check the [Makefile](%7B%7Bcookiecutter.django_project_name%7D%7D/Makefile), you'll see lots of shortcuts to speed up your development
