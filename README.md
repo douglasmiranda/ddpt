@@ -60,7 +60,7 @@ Template for Django Projects - From development with `docker-compose` to product
   * Reverse proxy with Caddy (easy HTTPS)
   * Serve static files with Whitenoise (planning to remove, not ideal for replicated Django)
   * Redis for Cache and Session Storage
-  * Send emails via Anymail (using Mailgun_ by default, but switchable)
+  * Send emails via Anymail (using Mailgun by default, but switchable)
 * Bonus: Check the [Makefile](%7B%7Bcookiecutter.django_project_name%7D%7D/Makefile), you'll see lots of shortcuts to speed up your development
 
 > [TODO](#todo)
@@ -69,9 +69,9 @@ Template for Django Projects - From development with `docker-compose` to product
 
 *These features can be enabled during initial project setup.*
 
-* (Development) Integration with MailHog_ for local email testing
-* (Production) Integration with Mailgun_ for local email testing
-* (Production) Integration with Sentry_ for error logging
+* (Development) Integration with [MailHog](https://github.com/mailhog/MailHog) for local email testing
+* (Production) Integration with [Mailgun](http://www.mailgun.com/) for local email testing
+* (Production) Integration with Sentry for error logging
 * (Production) Media storage using Amazon S3
 * Django Admin theme
 
@@ -81,7 +81,7 @@ Template for Django Projects - From development with `docker-compose` to product
 ### Introducing Cookiecutter
 
 Let's pretend you want to create a Django project called "awesome_project". Rather than using `startproject`
-and then editing the results to include your name, email, and various configuration issues that always get forgotten until the worst possible moment, get cookiecutter_ to do all the work.
+and then editing the results to include your name, email, and various configuration issues that always get forgotten until the worst possible moment, get cookiecutter to do all the work.
 
 First, get [Cookiecutter](https://github.com/audreyr/cookiecutter). Trust me, it's awesome:
 
