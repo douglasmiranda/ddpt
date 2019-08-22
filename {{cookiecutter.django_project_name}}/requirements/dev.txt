@@ -1,6 +1,6 @@
 # Local / Dev and Test environment dependencies ONLY
 # Run!
-Werkzeug==0.15.1  # django extensions will use Werkzeug in `runserver_plus`
+Werkzeug==0.15.3  # django extensions will use Werkzeug in `runserver_plus`
 watchdog==0.9.0  # Werkzeug will use to monitor file changes
 django-extensions==2.1.6
 
